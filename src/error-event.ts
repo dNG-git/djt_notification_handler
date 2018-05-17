@@ -56,7 +56,7 @@ export class ErrorEvent implements EventInterface {
      * @since v1.0.0
      */
     constructor(data?: Error | string, id?: string, level?: number, autoFire = true) {
-        if (Error.isPrototypeOf(data)) {
+        if (Error.prototype.isPrototypeOf(data)) {
             this.cause = data as Error;
             this.message = (data as Error).message;
         } else {
@@ -74,7 +74,7 @@ export class ErrorEvent implements EventInterface {
         }
 
         if (autoFire) {
-            this.fireEvent();
+            Handler.fireEvent(this);
         }
     }
 
@@ -109,11 +109,18 @@ export class ErrorEvent implements EventInterface {
     }
 
     /**
-     * Fires the event instance.
+     * String representation of the object.
      *
-     * @since v1.0.0
+     * @return String representation
+     * @since  v1.0.1
      */
-    public fireEvent() {
-        Handler.fireEvent(this);
+    public toString() {
+        let _return = `djt-notification-handler.ErrorEvent: ${this.eventId} (Level ${this.eventLevel})`;
+
+        if (this.cause) {
+            _return += ' with cause ' + this.cause.toString();
+        }
+
+        return _return;
     }
 }

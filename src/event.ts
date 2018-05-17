@@ -112,8 +112,18 @@ export class Event implements EventInterface {
      *
      * @since v1.0.0
      */
-    public fireEvent() {
+    protected fireEvent() {
         Handler.fireEvent(this);
+    }
+
+    /**
+     * String representation of the object.
+     *
+     * @return String representation
+     * @since  v1.0.1
+     */
+    public toString() {
+        return `djt-notification-handler.Event: ${this.eventId} (Level ${this.eventLevel})`;
     }
 
     /**
@@ -124,11 +134,11 @@ export class Event implements EventInterface {
      * @since v1.0.0
      */
     protected static handleException(exception: Error | ErrorEvent) {
-        if (Error.isPrototypeOf(exception)) {
+        if (Error.prototype.isPrototypeOf(exception)) {
             exception = new ExceptionEvent(exception as Error);
         }
 
-        (exception as ErrorEvent).fireEvent();
+        Handler.fireEvent(exception as ErrorEvent);
     }
 
     /**
@@ -143,7 +153,7 @@ export class Event implements EventInterface {
     public static async addEventGeneratorToPromise(promise: Promise<any>) {
         // tslint:disable-next-line:no-any
         promise.catch((reason: any) => {
-            if (!Error.isPrototypeOf(reason)) {
+            if (!Error.prototype.isPrototypeOf(reason)) {
                 reason = new ExceptionEvent(reason);
             }
 

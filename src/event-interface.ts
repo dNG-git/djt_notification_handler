@@ -51,11 +51,4 @@ export interface EventInterface {
      * Event level
      */
     eventLevel: EventLevel;
-
-    /**
-     * Fires the event instance.
-     *
-     * @since v1.0.0
-     */
-    fireEvent(): void;
 }
