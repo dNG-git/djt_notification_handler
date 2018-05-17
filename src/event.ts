@@ -123,7 +123,13 @@ export class Event implements EventInterface {
      * @since  v1.0.1
      */
     public toString() {
-        return `djt-notification-handler.Event: ${this.eventId} (Level ${this.eventLevel})`;
+        let _return = `djt-notification-handler.Event: ${this.eventId} (Level ${this.eventLevel})`;
+
+        if (this.eventData) {
+            _return += ' with data ' + JSON.stringify(this.eventData);
+        }
+
+        return _return;
     }
 
     /**

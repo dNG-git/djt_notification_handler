@@ -115,7 +115,11 @@ export class ErrorEvent implements EventInterface {
      * @since  v1.0.1
      */
     public toString() {
-        let _return = `djt-notification-handler.ErrorEvent: ${this.eventId} (Level ${this.eventLevel})`;
+        let _return = `djt-notification-handler.ErrorEvent: ${this.message} (Level ${this.eventLevel}, ID ${this.eventId})`;
+
+        if (this.cause !== this.eventData) {
+            _return += ' with data ' + JSON.stringify(this.eventData);
+        }
 
         if (this.cause) {
             _return += ' with cause ' + this.cause.toString();
