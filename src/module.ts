@@ -14,6 +14,7 @@
  * @license Mozilla Public License, v. 2.0
  */
 
+export { ConsoleOutputListener } from './console-output-listener';
 export { ErrorEvent } from './error-event';
 export { Event } from './event';
 export { EventInterface, EventLevel } from './event-interface';
