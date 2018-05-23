@@ -228,6 +228,27 @@ export class Handler {
     }
 
     /**
+     * Registers the 'djt-notification-handler' for global error events as well.
+     *
+     * @since v2.0.0
+     */
+    public static registerAsGlobalErrorHandler() {
+        self.onerror = (
+            (error) => {
+                let errorInstance;
+
+                if (typeof error == 'string') {
+                    errorInstance = new Error(error);
+                } else {
+                    errorInstance = new Error(error.toString());
+                }
+
+                this.handleException(errorInstance);
+            }
+        );
+    }
+
+    /**
      * Adds an exception catch block and executes the callback with the remaining
      * parameters given.
      *
