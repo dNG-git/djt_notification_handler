@@ -14,9 +14,7 @@
  * @license Mozilla Public License, v. 2.0
  */
 
-import { ErrorEvent } from './error-event';
 import { EventInterface, EventLevel } from './event-interface';
-import { ExceptionEvent } from './exception-event';
 import { Handler } from './handler';
 
 /**
