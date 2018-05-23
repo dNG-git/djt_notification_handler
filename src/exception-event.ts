@@ -34,11 +34,10 @@ export class ExceptionEvent extends ErrorEvent {
      * @param data Error instance or string
      * @param id Event ID
      * @param level Event level
-     * @param autoFire True to fire event at the end of the instance construction.
      *
      * @since v1.0.0
      */
-    constructor(data?: Error | string, id?: string, level?: number, autoFire = false) {
+    constructor(data?: Error | string, id?: string, level?: number) {
         if (typeof data == 'string' && (!id)) {
             id = 'djt.Exception';
         }
@@ -47,6 +46,6 @@ export class ExceptionEvent extends ErrorEvent {
             level = EventLevel.EXCEPTION;
         }
 
-        super(data, id, level, autoFire);
+        super(data, id, level);
     }
 }

@@ -15,7 +15,6 @@
  */
 
 import { EventInterface, EventLevel } from './event-interface';
-import { Handler } from './handler';
 
 /**
  * Event for errors and exceptions occurring while processing.
@@ -51,11 +50,10 @@ export class ErrorEvent implements EventInterface {
      * @param data Error instance or string
      * @param id Event ID
      * @param level Event level
-     * @param autoFire True to fire event at the end of the instance construction.
      *
      * @since v1.0.0
      */
-    constructor(data?: Error | string, id?: string, level?: number, autoFire = true) {
+    constructor(data?: Error | string, id?: string, level?: number) {
         if (Error.prototype.isPrototypeOf(data)) {
             this.cause = data as Error;
             this.message = (data as Error).message;
@@ -72,10 +70,6 @@ export class ErrorEvent implements EventInterface {
         } else {
             this._id = 'djt.Error';
         }
-
-        if (autoFire) {
-            Handler.fireEvent(this);
-        }
     }
 
     /**
@@ -85,7 +79,7 @@ export class ErrorEvent implements EventInterface {
      * @since  v1.0.0
      */
     public get eventData() {
-        return (this.cause ? this.cause : { });
+        return Object.assign({ message: this.message }, (this.cause ? this.cause : { }));
     }
 
     /**
@@ -115,7 +109,7 @@ export class ErrorEvent implements EventInterface {
      * @since  v1.0.1
      */
     public toString() {
-        let _return = `djt-notification-handler.ErrorEvent: ${this.message} (Level ${this.eventLevel}, ID ${this.eventId})`;
+        let _return = `djt-notification-handler.ErrorEvent: ${this.message} (ID ${this.eventId} - Level ${this.eventLevel})`;
 
         if (this.cause !== this.eventData) {
             _return += ' with data ' + JSON.stringify(this.eventData);

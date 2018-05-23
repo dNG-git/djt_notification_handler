@@ -14,7 +14,9 @@
  * @license Mozilla Public License, v. 2.0
  */
 
+import { ErrorEvent } from './error-event';
 import { EventInterface, EventLevel } from './event-interface';
+import { ExceptionEvent } from './exception-event';
 import { ListenerInterface, ListenerOptions } from './listener-interface';
 
 /**
@@ -133,6 +135,46 @@ export class Handler {
     }
 
     /**
+     * Adds a Promise rejection case to trigger an error event.
+     *
+     * @param promise Promise to be extended
+     *
+     * @return Extended promise instance
+     * @since  v2.0.0
+     */
+    // tslint:disable-next-line:no-any
+    public static async addEventGeneratorToPromise(promise: Promise<any>) {
+        // tslint:disable-next-line:no-any
+        promise.catch((reason: any) => {
+            if (!Error.prototype.isPrototypeOf(reason)) {
+                reason = new ExceptionEvent(reason);
+            }
+
+            this.handleException(reason);
+        });
+
+        return promise;
+    }
+
+    /**
+     * Adds a Promise rejection case and executes the promise with the remaining
+     * parameters given.
+     *
+     * @return Extended promise instance
+     * @since  v2.0.0
+     */
+    // tslint:disable-next-line:no-any
+    public static async addEventGeneratorAndExecutePromise(...args: any[]) {
+        if (args.length < 1) {
+            throw new Error('No callback given to wrap');
+        }
+
+        // tslint:disable-next-line:no-any
+        const callback: (...args: any[]) => Promise<any> = args.pop();
+        return this.addEventGeneratorToPromise(callback(...args));
+    }
+
+    /**
      * Fires the event given.
      *
      * @param event Triggering event
@@ -159,6 +201,21 @@ export class Handler {
     }
 
     /**
+     * Generates an exception event for the given instance.
+     *
+     * @param exception Native error instance or initialized error event
+     *
+     * @since v2.0.0
+     */
+    protected static handleException(exception: Error | ErrorEvent) {
+        if (Error.prototype.isPrototypeOf(exception)) {
+            exception = new ExceptionEvent(exception as Error);
+        }
+
+        Handler.fireEvent(exception as ErrorEvent);
+    }
+
+    /**
      * Registers the given event listener to be triggered for matching events.
      *
      * @param listener Notification listener
@@ -168,5 +225,84 @@ export class Handler {
      */
     public static register(listener: ListenerInterface, target?: ListenerOptions) {
         this.getInstance().registerListener(listener, target);
+    }
+
+    /**
+     * Adds an exception catch block and executes the callback with the remaining
+     * parameters given.
+     *
+     * @return Result
+     * @since  v2.0.0
+     */
+    // tslint:disable-next-line:no-any
+    public static wrapEventGeneratorAndExecuteCallback(...args: any[]) {
+        try {
+            if (args.length < 1) {
+                throw new Error('No callback given to wrap');
+            }
+
+            // tslint:disable-next-line:ban-types
+            const callback: Function = args.pop();
+
+            return callback(...args);
+        } catch (handledException) {
+            this.handleException(handledException);
+
+            throw handledException;
+        }
+    }
+
+    /**
+     * Wraps a Promise rejection catch block and executes the promise with the
+     * remaining parameters given.
+     *
+     * @return Extended promise instance
+     * @since  v2.0.0
+     */
+    // tslint:disable-next-line:no-any
+    public static async wrapExceptionTrapAndExecutePromise(...args: any[]) {
+        if (args.length < 1) {
+            throw new Error('No callback given to wrap');
+        }
+
+        // tslint:disable-next-line:no-any
+        const callback: (...args: any[]) => Promise<any> = args.pop();
+        return this.wrapExceptionTrapAndWaitForPromise(callback(...args));
+    }
+
+    /**
+     * Wraps a Promise rejection catch block and returns the promise result or the
+     * exception thrown.
+     *
+     * @param promise Promise to wait for
+     *
+     * @return Result or exception thrown
+     * @since  v2.0.0
+     */
+    // tslint:disable-next-line:no-any
+    public static async wrapExceptionTrapAndWaitForPromise(promise: Promise<any>) {
+        try {
+            return await promise;
+        } catch (handledException) {
+            this.handleException(handledException);
+
+            return handledException;
+        }
+    }
+
+    /**
+     * Wraps an exception catch block and executes the callback with the remaining
+     * parameters given.
+     *
+     * @return Result or exception thrown
+     * @since  v2.0.0
+     */
+    // tslint:disable-next-line:no-any
+    public static wrapExceptionTrapAndExecuteCallback(...args: any[]) {
+        try {
+            return this.wrapEventGeneratorAndExecuteCallback(...args);
+        } catch (handledException) {
+            return handledException;
+        }
     }
 }
