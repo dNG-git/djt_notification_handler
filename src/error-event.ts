@@ -79,7 +79,14 @@ export class ErrorEvent implements EventInterface {
      * @since  v1.0.0
      */
     public get eventData() {
-        return Object.assign({ message: this.message }, (this.cause ? this.cause : { }));
+        // tslint:disable-next-line:no-any
+        const _return: any = { message: this.message };
+
+        if (this.cause) {
+            _return['stack'] = this.cause.stack;
+        }
+
+        return _return;
     }
 
     /**
@@ -109,15 +116,8 @@ export class ErrorEvent implements EventInterface {
      * @since  v1.0.1
      */
     public toString() {
-        let _return = `djt-notification-handler.ErrorEvent: ${this.message} (ID ${this.eventId} - Level ${this.eventLevel})`;
-
-        if (this.cause !== this.eventData) {
-            _return += ' with data ' + JSON.stringify(this.eventData);
-        }
-
-        if (this.cause) {
-            _return += ' with cause ' + this.cause.toString();
-        }
+        let _return = `djt-notification-handler.ErrorEvent: ${this.eventId} (Level ${this.eventLevel})`;
+        _return += ' with data ' + JSON.stringify(this.eventData);
 
         return _return;
     }
