@@ -124,7 +124,11 @@ export class Event implements EventInterface {
         let _return = `djt-notification-handler.Event: ${this.eventId} (Level ${this.eventLevel})`;
 
         if (this.eventData) {
-            _return += ' with data ' + JSON.stringify(this.eventData);
+            try {
+                _return += ' with data ' + JSON.stringify(this.eventData);
+            } catch (exception) {
+                _return += ` with data which failed to be converted to a readable format (${exception.message})`;
+            }
         }
 
         return _return;

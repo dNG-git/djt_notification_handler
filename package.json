@@ -3,7 +3,7 @@
     "license": "MPL-2.0",
     "description": "'djt-notification-handler' supports a notification based, loose-coupled handler to notify listeners about events and errors occurring in various circumstances.",
     "homepage": "https://www.direct-netware.de/redirect?djt;notification_handler",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "private": true,
 
     "repository": {
@@ -17,7 +17,7 @@
 
     "scripts": {
         "install-clean": "npm install --no-save",
-        "update": "npm update",
+        "update-clean": "npm update --no-save",
         "build": "npm run build-lib",
         "build-lib": "npm run build-lib:es6 && npm run build-lib:cjs",
         "build-lib:es6": "./node_modules/.bin/tsc",
