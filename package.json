@@ -5,16 +5,13 @@
     "homepage": "https://www.direct-netware.de/redirect?djt;notification_handler",
     "version": "2.0.1",
     "private": true,
-
     "repository": {
         "type": "git",
         "url": "https://github.com/dNG-git/djt_notification_handler.git"
     },
-
     "main": "./lib/cjs/module.js",
     "module": "./lib/module.js",
     "types": "./lib/module.d.ts",
-
     "scripts": {
         "install-clean": "npm install --no-save",
         "update-clean": "npm update --no-save",
@@ -24,9 +21,8 @@
         "build-lib:cjs": "./node_modules/.bin/tsc -p tsconfig.cjs.json",
         "prepare": "npm run build-lib"
     },
-
     "devDependencies": {
-        "tslint": "^5.9.1",
-        "typescript": "^2.8.1"
+        "tslint": "^5.10.0",
+        "typescript": "^2.9.2"
     }
 }
