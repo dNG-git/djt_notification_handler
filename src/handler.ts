@@ -146,7 +146,7 @@ export class Handler {
     public static async addEventGeneratorToPromise(promise: Promise<any>) {
         // tslint:disable-next-line:no-any
         promise.catch((reason: any) => {
-            if (!Error.prototype.isPrototypeOf(reason)) {
+            if (!(reason instanceof Error)) {
                 reason = new ExceptionEvent(reason);
             }
 
@@ -208,7 +208,7 @@ export class Handler {
      * @since v2.0.0
      */
     protected static handleException(exception: Error | ErrorEvent) {
-        if (Error.prototype.isPrototypeOf(exception)) {
+        if (exception instanceof Error) {
             exception = new ExceptionEvent(exception as Error);
         }
 

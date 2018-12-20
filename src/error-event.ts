@@ -54,7 +54,7 @@ export class ErrorEvent implements EventInterface {
      * @since v1.0.0
      */
     constructor(data?: Error | string, id?: string, level?: number) {
-        if (Error.prototype.isPrototypeOf(data)) {
+        if (data instanceof Error) {
             this.cause = data as Error;
             this.message = (data as Error).message;
         } else {
