@@ -31,7 +31,7 @@ export class Event implements EventInterface {
     /**
      * Event data
      */
-    // tslint:disable-next-line:no-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected _data: any = { };
     /**
      * Event ID
@@ -52,8 +52,8 @@ export class Event implements EventInterface {
      *
      * @since v1.0.0
      */
-    // tslint:disable-next-line:no-any
-    constructor(id?: string, data?: any, level?: number, autoFire = true) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    constructor(id?: string, data?: unknown, level?: number, autoFire = true) {
         this._data = data;
         this._id = (id ? id : 'djt.Event');
         this._level = level;
@@ -70,6 +70,7 @@ export class Event implements EventInterface {
      * @since  v1.0.0
      */
     public get eventData() {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return this._data;
     }
 
@@ -80,8 +81,8 @@ export class Event implements EventInterface {
      *
      * @since v1.0.0
      */
-    // tslint:disable-next-line:no-any
-    public set eventData(data: any) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    public set eventData(data: unknown) {
         this._data = data;
     }
 
@@ -111,7 +112,7 @@ export class Event implements EventInterface {
      * @since v1.0.0
      */
     protected fireEvent() {
-        Handler.fireEvent(this);
+        void Handler.fireEvent(this);
     }
 
     /**
@@ -127,6 +128,7 @@ export class Event implements EventInterface {
             try {
                 _return += ' with data ' + JSON.stringify(this.eventData);
             } catch (exception) {
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/restrict-template-expressions
                 _return += ` with data which failed to be converted to a readable format (${exception.message})`;
             }
         }

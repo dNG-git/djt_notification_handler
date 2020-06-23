@@ -41,7 +41,7 @@ export interface EventInterface {
     /**
      * Event data
      */
-    // tslint:disable-next-line:no-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     eventData: any;
     /**
      * Event ID

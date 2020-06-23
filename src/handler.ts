@@ -14,10 +14,11 @@
  * @license Mozilla Public License, v. 2.0
  */
 
-import { ErrorEvent } from './error-event';
 import { EventInterface, EventLevel } from './event-interface';
-import { ExceptionEvent } from './exception-event';
 import { ListenerInterface, ListenerOptions } from './listener-interface';
+
+import { ErrorEvent } from './error-event';
+import { ExceptionEvent } from './exception-event';
 
 /**
  * Interface for registered listeners
@@ -142,9 +143,8 @@ export class Handler {
      * @return Extended promise instance
      * @since  v2.0.0
      */
-    // tslint:disable-next-line:no-any
-    public static async addEventGeneratorToPromise(promise: Promise<any>) {
-        // tslint:disable-next-line:no-any
+    public static async addEventGeneratorToPromise(promise: Promise<unknown>) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         promise.catch((reason: any) => {
             if (!(reason instanceof Error)) {
                 reason = new ExceptionEvent(reason);
@@ -163,14 +163,12 @@ export class Handler {
      * @return Extended promise instance
      * @since  v2.0.0
      */
-    // tslint:disable-next-line:no-any
-    public static async addEventGeneratorAndExecutePromise(...args: any[]) {
+    public static async addEventGeneratorAndExecutePromise(...args: unknown[]) {
         if (args.length < 1) {
             throw new Error('No callback given to wrap');
         }
 
-        // tslint:disable-next-line:no-any
-        const callback: (...args: any[]) => Promise<any> = args.pop();
+        const callback = args.pop() as (...args: unknown[]) => Promise<unknown>;
         return this.addEventGeneratorToPromise(callback(...args));
     }
 
@@ -209,10 +207,10 @@ export class Handler {
      */
     protected static handleException(exception: Error | ErrorEvent) {
         if (exception instanceof Error) {
-            exception = new ExceptionEvent(exception as Error);
+            exception = new ExceptionEvent(exception);
         }
 
-        Handler.fireEvent(exception as ErrorEvent);
+        void Handler.fireEvent(exception);
     }
 
     /**
@@ -255,16 +253,13 @@ export class Handler {
      * @return Result
      * @since  v2.0.0
      */
-    // tslint:disable-next-line:no-any
-    public static wrapEventGeneratorAndExecuteCallback(...args: any[]) {
+    public static wrapEventGeneratorAndExecuteCallback(...args: unknown[]) {
         try {
             if (args.length < 1) {
                 throw new Error('No callback given to wrap');
             }
 
-            // tslint:disable-next-line:ban-types
-            const callback: Function = args.pop();
-
+            const callback = args.pop() as (...args: unknown[]) => unknown;
             return callback(...args);
         } catch (handledException) {
             this.handleException(handledException);
@@ -280,14 +275,12 @@ export class Handler {
      * @return Extended promise instance
      * @since  v2.0.0
      */
-    // tslint:disable-next-line:no-any
-    public static async wrapExceptionTrapAndExecutePromise(...args: any[]) {
+    public static async wrapExceptionTrapAndExecutePromise(...args: unknown[]) {
         if (args.length < 1) {
             throw new Error('No callback given to wrap');
         }
 
-        // tslint:disable-next-line:no-any
-        const callback: (...args: any[]) => Promise<any> = args.pop();
+        const callback = args.pop() as (...args: unknown[]) => Promise<unknown>;
         return this.wrapExceptionTrapAndWaitForPromise(callback(...args));
     }
 
@@ -300,13 +293,13 @@ export class Handler {
      * @return Result or exception thrown
      * @since  v2.0.0
      */
-    // tslint:disable-next-line:no-any
-    public static async wrapExceptionTrapAndWaitForPromise(promise: Promise<any>) {
+    public static async wrapExceptionTrapAndWaitForPromise(promise: Promise<unknown>) {
         try {
             return await promise;
         } catch (handledException) {
             this.handleException(handledException);
 
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-return
             return handledException;
         }
     }
@@ -318,11 +311,11 @@ export class Handler {
      * @return Result or exception thrown
      * @since  v2.0.0
      */
-    // tslint:disable-next-line:no-any
-    public static wrapExceptionTrapAndExecuteCallback(...args: any[]) {
+    public static wrapExceptionTrapAndExecuteCallback(...args: unknown[]) {
         try {
             return this.wrapEventGeneratorAndExecuteCallback(...args);
         } catch (handledException) {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-return
             return handledException;
         }
     }

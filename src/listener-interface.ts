@@ -27,7 +27,7 @@ import { EventInterface, EventLevel } from './event-interface';
  *            Mozilla Public License, v. 2.0
  */
 export interface ListenerInterface {
-    onDjtNotificationEvent(event: EventInterface): Promise<void>;
+    onDjtNotificationEvent: (event: EventInterface) => Promise<void>;
 }
 
 /**

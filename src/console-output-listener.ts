@@ -28,6 +28,7 @@ import { ListenerInterface } from './listener-interface';
  *            Mozilla Public License, v. 2.0
  */
 export class ConsoleOutputListener implements ListenerInterface {
+    // eslint-disable-next-line @typescript-eslint/require-await
     public async onDjtNotificationEvent(event: EventInterface) {
         if (console) {
             let consoleMethodName = 'log';
@@ -55,6 +56,7 @@ export class ConsoleOutputListener implements ListenerInterface {
             }
 
             if (consoleMethodName in console) {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
                 (console as any)[consoleMethodName](event.toString());
             }
         }

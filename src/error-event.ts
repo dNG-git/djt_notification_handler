@@ -55,10 +55,10 @@ export class ErrorEvent implements EventInterface {
      */
     constructor(data?: Error | string, id?: string, level?: number) {
         if (data instanceof Error) {
-            this.cause = data as Error;
-            this.message = (data as Error).message;
+            this.cause = data;
+            this.message = data.message;
         } else {
-            this.message = data as string;
+            this.message = data;
         }
 
         this._level = (level ? level : EventLevel.ERROR);
@@ -79,13 +79,15 @@ export class ErrorEvent implements EventInterface {
      * @since  v1.0.0
      */
     public get eventData() {
-        // tslint:disable-next-line:no-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const _return: any = { message: this.message };
 
         if (this.cause) {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             _return['stack'] = this.cause.stack;
         }
 
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return _return;
     }
 
