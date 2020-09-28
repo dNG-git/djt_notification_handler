@@ -14,36 +14,11 @@
  * @license Mozilla Public License, v. 2.0
  */
 
-import { EventInterface, EventLevel } from './event-interface';
-import { ListenerInterface, ListenerOptions } from './listener-interface';
+import { ListenerInterface, ListenerOptions, RegisteredListenerInterface } from './listener-interfaces';
 
 import { ErrorEvent } from './error-event';
+import { EventInterface } from './event-interfaces';
 import { ExceptionEvent } from './exception-event';
-
-/**
- * Interface for registered listeners
- *
- * @author    direct Netware Group
- * @copyright (C) direct Netware Group - All rights reserved
- * @package   djt-notification-handler
- * @since     v1.0.0
- * @license   https://www.direct-netware.de/redirect?licenses;mpl2
- *            Mozilla Public License, v. 2.0
- */
-export interface RegisteredListenerType {
-    /**
-     * Listener instance
-     */
-    instance: ListenerInterface;
-    /**
-     * Event ID
-     */
-    eventId?: string;
-    /**
-     * Event level
-     */
-    eventLevel?: EventLevel;
-}
 
 /**
  * The notification handler singleton can be used to register for and trigger
@@ -64,7 +39,7 @@ export class Handler {
     /**
      * List of registered callback handlers
      */
-    protected registeredListeners: RegisteredListenerType[] = [ ];
+    protected registeredListeners: RegisteredListenerInterface[] = [ ];
 
     /**
      * Fires all registered listeners for the event given.

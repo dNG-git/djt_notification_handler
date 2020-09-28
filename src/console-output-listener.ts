@@ -14,11 +14,12 @@
  * @license Mozilla Public License, v. 2.0
  */
 
-import { EventInterface, EventLevel } from './event-interface';
-import { ListenerInterface } from './listener-interface';
+import { EventInterface, EventLevel } from './event-interfaces';
+
+import { ListenerInterface } from './listener-interfaces';
 
 /**
- * Notification listener interface.
+ * Notification listener forwarding events to the global console instance.
  *
  * @author    direct Netware Group
  * @copyright (C) direct Netware Group - All rights reserved
@@ -28,6 +29,13 @@ import { ListenerInterface } from './listener-interface';
  *            Mozilla Public License, v. 2.0
  */
 export class ConsoleOutputListener implements ListenerInterface {
+    /**
+     * Called for notification events.
+     *
+     * @param event Notification event
+     *
+     * @since v1.0.0
+     */
     // eslint-disable-next-line @typescript-eslint/require-await
     public async onDjtNotificationEvent(event: EventInterface) {
         if (console) {

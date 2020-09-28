@@ -15,7 +15,7 @@
  */
 
 import { ErrorEvent } from './error-event';
-import { EventLevel } from './event-interface';
+import { EventLevel } from './event-interfaces';
 
 /**
  * Event for exceptions occurring while processing.

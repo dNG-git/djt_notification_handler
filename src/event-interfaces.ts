@@ -30,12 +30,7 @@ export enum EventLevel {
 /**
  * Notification event interface.
  *
- * @author    direct Netware Group
- * @copyright (C) direct Netware Group - All rights reserved
- * @package   djt-notification-handler
- * @since     v1.0.0
- * @license   https://www.direct-netware.de/redirect?licenses;mpl2
- *            Mozilla Public License, v. 2.0
+ * @since v1.0.0
  */
 export interface EventInterface {
     /**

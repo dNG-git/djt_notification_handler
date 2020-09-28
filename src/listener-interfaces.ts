@@ -14,17 +14,12 @@
  * @license Mozilla Public License, v. 2.0
  */
 
-import { EventInterface, EventLevel } from './event-interface';
+import { EventInterface, EventLevel } from './event-interfaces';
 
 /**
  * Notification listener interface.
  *
- * @author    direct Netware Group
- * @copyright (C) direct Netware Group - All rights reserved
- * @package   djt-notification-handler
- * @since     v1.0.0
- * @license   https://www.direct-netware.de/redirect?licenses;mpl2
- *            Mozilla Public License, v. 2.0
+ * @since v1.0.0
  */
 export interface ListenerInterface {
     onDjtNotificationEvent: (event: EventInterface) => Promise<void>;
@@ -33,14 +28,29 @@ export interface ListenerInterface {
 /**
  * Listener options.
  *
- * @author    direct Netware Group
- * @copyright (C) direct Netware Group - All rights reserved
- * @package   djt-notification-handler
- * @since     v1.0.0
- * @license   https://www.direct-netware.de/redirect?licenses;mpl2
- *            Mozilla Public License, v. 2.0
+ * @since v1.0.0
  */
 export interface ListenerOptions {
+    /**
+     * Event ID
+     */
+    eventId?: string;
+    /**
+     * Event level
+     */
+    eventLevel?: EventLevel;
+}
+
+/**
+ * Interface for registered listeners
+ *
+ * @since v1.0.0
+ */
+export interface RegisteredListenerInterface {
+    /**
+     * Listener instance
+     */
+    instance: ListenerInterface;
     /**
      * Event ID
      */

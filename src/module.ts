@@ -17,7 +17,7 @@
 export { ConsoleOutputListener } from './console-output-listener';
 export { ErrorEvent } from './error-event';
 export { Event } from './event';
-export { EventInterface, EventLevel } from './event-interface';
+export { EventInterface, EventLevel } from './event-interfaces';
 export { ExceptionEvent } from './exception-event';
 export { Handler } from './handler';
-export { ListenerInterface } from './listener-interface';
+export { ListenerInterface } from './listener-interfaces';

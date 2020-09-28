@@ -14,7 +14,7 @@
  * @license Mozilla Public License, v. 2.0
  */
 
-import { EventInterface, EventLevel } from './event-interface';
+import { EventInterface, EventLevel } from './event-interfaces';
 import { Handler } from './handler';
 
 /**
